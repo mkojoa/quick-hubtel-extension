@@ -66,7 +66,7 @@ namespace Hubtel.QuickHelpers
                 Name = "Michael",
                 Phone = "0553771219",
                 From = "0276002658",
-                Code = Guid.NewGuid().ToString(),
+                Code = Guid.NewGuid().ToString(), // change later
             };
     }
 }
