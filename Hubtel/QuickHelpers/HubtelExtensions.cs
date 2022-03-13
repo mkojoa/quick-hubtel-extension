@@ -9,17 +9,17 @@ namespace Hubtel.QuickHelpers
     public static class HubtelExtensions
     {
         // Constant
-        public static string ClientId = "";
-        public static string Secret = "";
+        private static string ClientId = "";
+        private static string Secret = "";
         public static string From = "Panda"; // not in use;
-        public static string BulkSMSUrl = "https://smsc.hubtel.com/v1/messages";
+        private static string BulkSMSUrl = "https://smsc.hubtel.com/v1/messages";
 
 
         /// <summary>
-        /// Api Call
+        /// Api Call I
         /// </summary>
         /// <returns></returns>
-        public static async Task<string> PrepareSmsApiCall()
+        public static async Task<string> ApiCall1()
         {
             var apiUrl = BulkSMSUrl;
             var apiClient = ClientId;
@@ -54,6 +54,60 @@ namespace Hubtel.QuickHelpers
             }
 
             return response;
+        }
+         
+        /// <summary>
+        ///  Api Call II
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<string> ApiCall2()
+        {
+            var data = GetCustomerDetailsFromDb();
+
+            var InputForm = new
+            {
+                from = "MySenderId",
+                to = "0553771219",
+                content = $"Dear {data.Name}, " +
+                          $"\r\n" +
+                          $"Your reset password code is : {data.Code}. \r\n" +
+                          $"Don't share this code with others" +
+                          $"\r\n" +
+                          $"Panda"
+            };
+            var msg = Newtonsoft.Json.JsonConvert.SerializeObject(InputForm);
+
+            using (var client = new HttpClient())
+            {
+
+                var base64String = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{ClientId}:{Secret}"));
+
+                client.DefaultRequestHeaders.Add("Authorization", "Basic " + base64String);
+
+                JObject json = JObject.Parse(msg);
+
+                var postData = new StringContent(json.ToString(), Encoding.UTF8, "application/json");
+
+                var resp = await client.PostAsync(
+                    $"{BulkSMSUrl}/send", 
+                    postData
+                );
+
+                string response;
+                if (resp.IsSuccessStatusCode)
+                {
+                    var result = await resp.Content.ReadAsStringAsync();
+
+                    response = $"{result}";
+                }
+                else
+                {
+                    response = $"Please try again...";
+                }
+
+                return response;
+
+            }
         }
 
         /// <summary>

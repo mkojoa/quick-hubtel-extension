@@ -11,12 +11,23 @@ namespace Hubtel
     {
         static async Task Main(string[] args)
         {
-            // extension to call
-           var result =  await HubtelExtensions.PrepareSmsApiCall();
+            try
+            {
+                // extension to call
+                HubtelExtensions.From = "Panda";
 
-            Console.WriteLine(result);
+                //var result1 = await HubtelExtensions.ApiCall1();
+                var result2 = await HubtelExtensions.ApiCall2();
 
-            Console.ReadKey();
+                //Console.WriteLine(result1);
+                Console.WriteLine(result2);
+
+                Console.ReadKey();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }
