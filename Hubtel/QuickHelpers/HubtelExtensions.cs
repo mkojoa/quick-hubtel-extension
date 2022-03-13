@@ -8,8 +8,8 @@ namespace Hubtel.QuickHelpers
 {
     public static class HubtelExtensions
     {
-        public static string ClientId = "ryxqkwnm";
-        public static string Secret = "vjbipotk";
+        public static string ClientId = "";
+        public static string Secret = "";
         public static string From = "Panda"; // not in use;
         public static string BulkSMSUrl = "https://smsc.hubtel.com/v1/messages";
 
