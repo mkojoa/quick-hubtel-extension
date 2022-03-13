@@ -8,12 +8,17 @@ namespace Hubtel.QuickHelpers
 {
     public static class HubtelExtensions
     {
+        // Constant
         public static string ClientId = "";
         public static string Secret = "";
         public static string From = "Panda"; // not in use;
         public static string BulkSMSUrl = "https://smsc.hubtel.com/v1/messages";
 
 
+        /// <summary>
+        /// Api Call
+        /// </summary>
+        /// <returns></returns>
         public static async Task<string> PrepareSmsApiCall()
         {
             var apiUrl = BulkSMSUrl;
@@ -51,6 +56,10 @@ namespace Hubtel.QuickHelpers
             return response;
         }
 
+        /// <summary>
+        /// Customer Data
+        /// </summary>
+        /// <returns></returns>
         private static HubtelDto GetCustomerDetailsFromDb()
             => new()
             {

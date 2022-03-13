@@ -11,6 +11,7 @@ namespace Hubtel
     {
         static async Task Main(string[] args)
         {
+            // extension to call
            var result =  await HubtelExtensions.PrepareSmsApiCall();
 
             Console.WriteLine(result);
