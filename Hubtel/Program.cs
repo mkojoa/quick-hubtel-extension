@@ -39,8 +39,8 @@ namespace Hubtel
                 string mobile = "PHONENUM";
                 string msgBody = "Your sms body here";
                 
-                string clientId = "ryxqkwnm";
-                string clientSecret = "vjbipotk";
+                string clientId = "clientID";
+                string clientSecret = "clientSecret";
 
 
 
