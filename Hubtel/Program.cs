@@ -36,11 +36,11 @@ namespace Hubtel
                 HubtelExtensions.From = "Panda";
                              
 
-                string mobile = "PHONENUM";
+                string mobile = "0553771219";
                 string msgBody = "Your sms body here";
                 
-                string clientId = "clientID";
-                string clientSecret = "clientSecret";
+                string clientId = "";
+                string clientSecret = "";
 
 
 
