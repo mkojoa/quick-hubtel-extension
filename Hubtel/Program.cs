@@ -4,24 +4,63 @@ using System.Threading.Tasks;
 using System.Text;
 using Newtonsoft.Json.Linq;
 using Hubtel.QuickHelpers;
+using System.Net;
+using System.IO;
 
 namespace Hubtel
 {
     internal class Program
     {
-        static async Task Main(string[] args)
+
+        private static string callUrl;
+
+
+        public static string Get(string uri)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
+            request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            using (Stream stream = response.GetResponseStream())
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                return reader.ReadToEnd();
+            }
+        }
+
+       public static void Main(string[] args)
         {
             try
             {
                 // extension to call
                 HubtelExtensions.From = "Panda";
+                             
 
-                //var result1 = await HubtelExtensions.ApiCall1();
-                var result2 = await HubtelExtensions.ApiCall2();
+                string mobile = "PHONENUM";
+                string msgBody = "Your sms body here";
+                
+                string clientId = "clientID";
+                string clientSecret = "clientSecret";
 
-                //Console.WriteLine(result1);
-                Console.WriteLine(result2);
 
+
+
+                msgBody = msgBody.Replace(' ', '+');
+
+                callUrl = @"https://api.hubtel.com/v1/messages/send?From=PANDA&To=" + mobile + "&Content=" + msgBody + "&ClientId=" + clientId + "&ClientSecret=" + clientSecret + "&RegisteredDelivery=true";
+                
+                string msgReply = Get(callUrl);
+
+                if (msgReply.Contains("\"Status\": 0, "))
+                {
+                    Console.WriteLine("SMS Sent");
+                    
+                    //include audit if applicable
+                }
+                else
+                {
+                    //Exception Handling + audit
+                }
                 Console.ReadKey();
             }
             catch (Exception ex)
